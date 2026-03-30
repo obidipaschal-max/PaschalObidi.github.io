@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Job Application Studio — Paschal Obidi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --navy:   #0D1B2A;
+  --navy2:  #112033;
+  --navy3:  #0A1520;
+  --navy4:  #162840;
+  --gold:   #C9A84C;
+  --gold2:  #E8C96A;
+  --goldfaint: rgba(201,168,76,0.1);
+  --cream:  #F5F0E8;
+  --gray:   #8A9BB0;
+  --gray2:  #4A5A6A;
+  --line:   rgba(201,168,76,0.2);
+  --line2:  rgba(255,255,255,0.07);
+  --green:  #3DAA6A;
+  --red:    #E05555;
+  --fd: 'Cormorant Garamond', serif;
+  --fb: 'DM Sans', sans-serif;
+  --fm: 'DM Mono', monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--cream);font-family:var(--fb);font-size:15px;line-height:1.65;min-height:100vh;overflow-x:hidden}
+
+/* NOISE */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.3}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--navy)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* ── LAYOUT ── */
+.app{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:0 32px 80px}
+
+/* ── HEADER ── */
+.header{padding:36px 0 28px;border-bottom:1px solid var(--line);margin-bottom:40px;display:flex;justify-content:space-between;align-items:flex-end}
+.header-left h1{font-family:var(--fd);font-size:2.4rem;font-weight:300;color:var(--cream);line-height:1.1}
+.header-left h1 em{font-style:italic;color:var(--gold)}
+.header-left p{font-family:var(--fm);font-size:0.68rem;color:var(--gray);letter-spacing:0.18em;text-transform:uppercase;margin-top:8px}
+.header-badge{font-family:var(--fm);font-size:0.65rem;color:var(--gold);border:1px solid var(--line);padding:8px 16px;letter-spacing:0.15em;text-transform:uppercase}
+
+/* ── MAIN GRID ── */
+.main-grid{display:grid;grid-template-columns:420px 1fr;gap:28px;align-items:start}
+
+/* ── PANEL ── */
+.panel{background:rgba(255,255,255,0.025);border:1px solid var(--line2);padding:28px}
+.panel-title{font-family:var(--fm);font-size:0.66rem;color:var(--gold);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--line2);display:flex;align-items:center;gap:10px}
+.panel-title .dot{width:6px;height:6px;background:var(--gold);display:inline-block;transform:rotate(45deg)}
+
+/* ── INPUTS ── */
+.field{margin-bottom:20px}
+.field label{display:block;font-family:var(--fm);font-size:0.62rem;color:var(--gray);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px}
+.field input, .field textarea, .field select{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--line2);color:var(--cream);font-family:var(--fb);font-size:0.88rem;padding:12px 14px;outline:none;transition:border-color 0.2s;resize:vertical;line-height:1.6}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--gold)}
+.field input::placeholder,.field textarea::placeholder{color:var(--gray2)}
+.field select option{background:var(--navy2);color:var(--cream)}
+.field textarea{min-height:200px}
+
+/* ── CHECKBOXES ── */
+.checkbox-group{display:flex;flex-direction:column;gap:10px}
+.checkbox-item{display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--gray)}
+.checkbox-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--gold);flex-shrink:0}
+.checkbox-item input[type=checkbox]:checked+span{color:var(--cream)}
+
+/* ── BUTTONS ── */
+.btn-generate{width:100%;padding:16px;background:var(--gold);color:var(--navy);font-family:var(--fm);font-size:0.75rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.25s;margin-top:8px}
+.btn-generate:hover{background:var(--gold2)}
+.btn-generate:disabled{opacity:0.45;cursor:not-allowed}
+.btn-generate.loading{background:var(--navy4);color:var(--gold);border:1px solid var(--line)}
+
+.btn-copy{padding:8px 16px;border:1px solid var(--line);background:transparent;color:var(--gray);font-family:var(--fm);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.2s}
+.btn-copy:hover{border-color:var(--gold);color:var(--gold)}
+.btn-copy.copied{border-color:var(--green);color:var(--green)}
+
+.btn-regen{padding:8px 16px;border:1px solid var(--line);background:transparent;color:var(--gray);font-family:var(--fm);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.2s}
+.btn-regen:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── PROGRESS ── */
+.progress-bar{height:2px;background:var(--line2);margin-top:16px;overflow:hidden;display:none}
+.progress-bar.active{display:block}
+.progress-fill{height:100%;background:var(--gold);width:0%;transition:width 0.4s ease;animation:progressPulse 1.5s infinite}
+@keyframes progressPulse{0%{opacity:1}50%{opacity:0.5}100%{opacity:1}}
+
+.status-msg{font-family:var(--fm);font-size:0.65rem;color:var(--gold);letter-spacing:0.12em;margin-top:10px;min-height:18px;text-transform:uppercase}
+
+/* ── OUTPUT AREA ── */
+.output-area{display:flex;flex-direction:column;gap:24px}
+
+.output-card{background:rgba(255,255,255,0.02);border:1px solid var(--line2);overflow:hidden}
+.output-card-header{padding:16px 22px;background:rgba(201,168,76,0.06);border-bottom:1px solid var(--line2);display:flex;justify-content:space-between;align-items:center}
+.output-card-title{font-family:var(--fm);font-size:0.64rem;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase}
+.output-card-actions{display:flex;gap:8px}
+.output-card-body{padding:24px 26px;min-height:120px}
+
+.output-text{font-size:0.9rem;color:var(--cream);line-height:1.85;white-space:pre-wrap;font-family:var(--fb)}
+.output-text.mono{font-family:var(--fm);font-size:0.82rem;color:var(--gray);line-height:1.9}
+
+/* ── EMPTY STATE ── */
+.empty-state{text-align:center;padding:80px 40px}
+.empty-state .empty-icon{font-size:3rem;margin-bottom:20px;opacity:0.4}
+.empty-state h3{font-family:var(--fd);font-size:1.8rem;font-weight:300;color:var(--gray);margin-bottom:10px}
+.empty-state p{font-size:0.85rem;color:var(--gray2);line-height:1.7;max-width:360px;margin:0 auto}
+
+/* ── KEYWORDS ── */
+.keywords-grid{display:flex;flex-wrap:wrap;gap:8px}
+.kw-chip{padding:5px 12px;font-family:var(--fm);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid}
+.kw-chip.match{border-color:rgba(61,170,106,0.4);color:var(--green);background:rgba(61,170,106,0.06)}
+.kw-chip.partial{border-color:var(--line);color:var(--gold);background:var(--goldfaint)}
+.kw-chip.missing{border-color:rgba(224,85,85,0.35);color:var(--red);background:rgba(224,85,85,0.05)}
+
+/* ── SCORE ── */
+.score-row{display:flex;gap:20px;margin-bottom:20px}
+.score-item{flex:1;padding:16px;border:1px solid var(--line2);text-align:center}
+.score-num{font-family:var(--fd);font-size:2.2rem;font-weight:700;line-height:1}
+.score-num.high{color:var(--green)}
+.score-num.mid{color:var(--gold)}
+.score-num.low{color:var(--red)}
+.score-label{font-family:var(--fm);font-size:0.6rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px}
+
+/* ── TIPS ── */
+.tip-list{display:flex;flex-direction:column;gap:10px}
+.tip-item{display:flex;gap:12px;font-size:0.84rem;color:var(--gray);line-height:1.6}
+.tip-item::before{content:'→';color:var(--gold);font-family:var(--fm);flex-shrink:0}
+
+/* ── HISTORY ── */
+.history-list{display:flex;flex-direction:column;gap:8px;max-height:180px;overflow-y:auto}
+.history-item{padding:10px 14px;border:1px solid var(--line2);cursor:pointer;transition:all 0.2s;display:flex;justify-content:space-between;align-items:center}
+.history-item:hover{border-color:var(--line);background:var(--goldfaint)}
+.history-title{font-size:0.82rem;color:var(--cream);font-weight:500}
+.history-meta{font-family:var(--fm);font-size:0.6rem;color:var(--gray);letter-spacing:0.08em}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--line2);margin-bottom:24px}
+.tab{padding:10px 20px;font-family:var(--fm);font-size:0.65rem;color:var(--gray);letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;margin-bottom:-1px}
+.tab:hover{color:var(--cream)}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--line2);margin:20px 0}
+
+/* ── PROFILE PREVIEW ── */
+.profile-peek{padding:16px;background:rgba(201,168,76,0.05);border:1px solid var(--line);margin-bottom:20px}
+.profile-peek-name{font-family:var(--fd);font-size:1.1rem;font-weight:600;color:var(--cream)}
+.profile-peek-role{font-family:var(--fm);font-size:0.62rem;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;margin-top:3px}
+.profile-peek-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.profile-tag{padding:3px 10px;border:1px solid var(--line2);font-family:var(--fm);font-size:0.58rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase}
+
+/* ── STREAMING CURSOR ── */
+.streaming-cursor::after{content:'▌';color:var(--gold);animation:blink 0.8s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* RESPONSIVE */
+@media(max-width:1100px){.main-grid{grid-template-columns:1fr;max-width:720px;margin:0 auto}}
+@media(max-width:600px){.app{padding:0 16px 60px}.header{flex-direction:column;gap:16px;align-items:flex-start}.header-badge{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <h1>Job Application <em>Studio</em></h1>
+      <p>Paschal Obidi · @MaxxifiedLian · Senior AI PM Positioning</p>
+    </div>
+    <div class="header-badge">AI-Powered · Tailored Output</div>
+  </div>
+
+  <div class="main-grid">
+
+    <!-- LEFT: INPUT PANEL -->
+    <div>
+      <!-- Profile Preview -->
+      <div class="profile-peek">
+        <div class="profile-peek-name">Paschal Obidi</div>
+        <div class="profile-peek-role">Senior AI PM · AI Ethics · Philosopher of AI · Aspiring CAIO</div>
+        <div class="profile-peek-tags">
+          <span class="profile-tag">NeuraVault PRD</span>
+          <span class="profile-tag">Ghost Mall Paradox™</span>
+          <span class="profile-tag">PACE Framework</span>
+          <span class="profile-tag">IBM PM Cert</span>
+          <span class="profile-tag">Dual First Class</span>
+          <span class="profile-tag">200+ Listeners</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><span class="dot"></span>Job Details</div>
+
+        <div class="field">
+          <label>Company Name</label>
+          <input type="text" id="companyName" placeholder="e.g. Anthropic, Google DeepMind, OpenAI"/>
+        </div>
+
+        <div class="field">
+          <label>Role Title</label>
+          <input type="text" id="roleTitle" placeholder="e.g. Senior AI Product Manager"/>
+        </div>
+
+        <div class="field">
+          <label>Job Description — Paste full JD here</label>
+          <textarea id="jobDesc" placeholder="Paste the complete job description here. The more detail, the better the tailoring..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>Tone</label>
+          <select id="tone">
+            <option value="professional">Professional & Confident</option>
+            <option value="visionary">Visionary & Philosophical</option>
+            <option value="concise">Direct & Concise</option>
+            <option value="warm">Warm & Conversational</option>
+          </select>
+        </div>
+
+        <div class="divider"></div>
+        <div class="panel-title" style="border:none;margin-bottom:14px;padding-bottom:0"><span class="dot"></span>Generate</div>
+
+        <div class="field">
+          <div class="checkbox-group">
+            <label class="checkbox-item">
+              <input type="checkbox" id="genCover" checked/>
+              <span>Cover Letter (tailored)</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" id="genSummary" checked/>
+              <span>Resume Summary (ATS-optimised)</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" id="genKeywords" checked/>
+              <span>ATS Keyword Analysis</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" id="genTips" checked/>
+              <span>Application Strategy Tips</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" id="genLinkedIn"/>
+              <span>LinkedIn Message (to recruiter)</span>
+            </label>
+          </div>
+        </div>
+
+        <button class="btn-generate" id="generateBtn" onclick="generate()">
+          Generate Application Materials
+        </button>
+        <div class="progress-bar" id="progressBar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="status-msg" id="statusMsg"></div>
+      </div>
+
+      <!-- History -->
+      <div class="panel" style="margin-top:20px" id="historyPanel">
+        <div class="panel-title"><span class="dot"></span>Recent Applications</div>
+        <div class="history-list" id="historyList">
+          <div style="font-size:0.82rem;color:var(--gray2);text-align:center;padding:20px">No applications yet</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: OUTPUT -->
+    <div class="output-area" id="outputArea">
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">✦</div>
+        <h3>Your materials<br>await.</h3>
+        <p>Paste a job description on the left, select what to generate, and hit the button. Tailored cover letter, resume summary, ATS keywords, and strategy tips — all in one shot.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// MASTER PROFILE — Paschal Obidi
+// Single source of truth injected into every API call
+// ═══════════════════════════════════════════════════════════════════════════
+const MASTER_PROFILE = `
+=== PASCHAL OBIDI — MASTER PROFILE ===
+
+IDENTITY
+Full name: Paschal Obidi
+Handle: @MaxxifiedLian (X, Medium, Substack)
+Byline: AI Product Lead & Ethics | Philosopher of AI | Aspiring Chief AI Officer (CAIO)
+One-line: The philosopher who ships — building AI products that are commercially sharp, ethically sound, and strategically inevitable.
+Location: Lagos, Nigeria
+Email: obidipaschal@gmail.com
+Phone: +234 808 095 7215
+Target role NOW: Senior AI Product Manager
+Long-term goal: Chief AI Officer (CAIO)
+
+EDUCATION
+- B.A. Philosophy, First Class Honours — Nnamdi Azikiwe University, Awka (2020–2024). Certified Philosopher of Artificial Intelligence. Specialized in ethical implications, societal impacts, and decentralized integration of AI.
+- B.Phil. Philosophy, First Class Honours — Urbaniana University, Rome (2020–2024). Ethics, epistemology, philosophy of mind, application to technology and AI systems.
+- IBM Certified Product Manager — IBM / Coursera
+
+PROFESSIONAL EXPERIENCE (most recent first)
+
+1. Product Manager — NeuraNet Labs (AI / DePIN / Privacy Tech) · 2024
+   Context: NeuraNet Labs builds AI-powered decentralized data vaults. NeuraVault is a decentralized data locker enabling individuals and startups to contribute, license, monetize their data to AI companies via smart contracts with privacy-preserving AI training as core value proposition.
+   Team: Reported directly to Head of Product. Led: 3 engineers, 2 product designers, 1 growth lead, 1 AI/Blockchain advisor.
+   Key work:
+   - Authored the full NeuraVault PRD — user stories, acceptance criteria, success metrics across 3 user archetypes (Individual Contributors, Startup Data Owners, AI Company Buyers)
+   - Defined privacy-preserving AI training as non-negotiable core constraint
+   - Coordinated sprint planning, backlog prioritization with engineering and design
+   - Translated complex blockchain/AI concepts into investor-facing product narratives
+   - Owned roadmap documentation and stakeholder communication
+
+2. Product Manager & B2B Strategist — Magnet X DAO (Web3 / AI) · 2024–Present
+   - Scaled community from 0 to 2,000+ active organic followers
+   - Educated 500+ participants through structured AI/Web3 learning programs
+   - Secured 3 B2B partnerships with combined influencer reach of 150K+ followers
+   - Drafted full organizational working plan establishing role clarity and accountability
+
+3. Lead Product Strategist — Farmroll (SocialFi / AI LaunchPad) · 2024
+   - Designed VTV Framework (Visibility, Trend, Virality) — original GTM strategy
+   - Repositioned core token as 'Genesis Asset' — created investor narrative
+   - Built Assitroll B2B program — premium launchpad partner destination
+   - Simplified questing UX to reward-first design
+
+4. Product Manager & Ecosystem Strategist — Aquara.io (Cardano / RWA / DePIN) · 2024
+   - Full strategic audit identifying 3 critical blockers
+   - Designed 'Global-Local' roadmap with phased milestones
+   - Core insight: "Blockchain is the engine, not the story."
+
+5. Elite Ambassador & AI Educator — Olivia AI · 2024–Present
+   - Hosts 'Minds of Machine' weekly AI philosophy space on X — 200+ consistent listeners/session
+   - Represented Olivia AI at events reaching 1,000+ participants
+   - SEO-optimized AI education content for non-technical audiences
+
+6. Founder — Cardano Nigeria · 2025–Present
+   - Founded Nigeria's dedicated Cardano community from zero budget
+
+7. Crypto Educator — @sign Academy · 2023–2024
+   - Educated 1,000+ audience members in Web3/blockchain
+   - Awarded @sign Support Warrior NFT — recognized as "Sign Philosopher and Onboarder"
+
+8. Editor-in-Chief & Project Manager — Focus Publications · 2023–2024
+   - Led 20-member team, 50+ content campaigns, 95% satisfaction rate, 20% engagement growth
+
+ORIGINAL FRAMEWORKS (Intellectual Property — always attribute to Paschal Obidi)
+1. Ghost Mall Paradox™ — Economic theory: AI-driven job displacement is self-correcting because capitalism's circular flow requires consumers. Insight: "AI cannot automate away the customer."
+2. Human Premium™ — Framework defining irreducible human value in AI economy: emotional intelligence, ethical judgment, contextual creativity. Insight: "In an age of infinite AI output, irreplaceable humans become the scarcest resource."
+3. PACE Framework — PM methodology for AI agent integration: Plan, Assign, Connect, Evaluate. Insight: "Speed matters. But what matters most is real impact on users."
+4. VTV Strategy — GTM framework: Visibility, Trend, Virality. Designed and executed at Farmroll. Insight: "Build it and they will come is a prayer, not a strategy."
+
+CORE COMPETENCIES
+AI Strategy & Roadmapping, Product Lifecycle Management, PRD & Product Spec Authoring, User Story Mapping & Acceptance Criteria, Backlog Prioritization & Sprint Planning, Go-to-Market Strategy, LLM Product Strategy, Token Economics & Web3 Product Strategy, Market Audit & Competitive Analysis, KPI Definition, Cross-functional Team Leadership (3–20 members), Stakeholder Communication, B2B Partnership Negotiation, Community Growth & Ecosystem Building (0 to 2,000+), AI Ethics & Governance, Responsible AI Deployment, EU AI Act Navigation, SEO & Technical Writing, Original Framework Development, Public Speaking & AI Philosophy Hosting
+
+TOOLS & STACK
+ChatGPT (GPT-4o), Claude (Anthropic), Gemini, Perplexity AI, Midjourney, Notion, Figma, Prompt Engineering (applied), PRD Authoring, Roadmapping, User Story Mapping, Sprint Planning, Agile workflows, LLM product strategy, AI Ethics Frameworks, Smart Contract product logic (Cardano), Token Economics, SEO Strategy
+
+KEY METRICS (approved for use — never exaggerate)
+- 2,000+ organic community members (Magnet X DAO)
+- 150K+ combined B2B influencer reach (3 partnerships)
+- 200+ listeners per session (Minds of Machine)
+- 500+ educated (Magnet X DAO learning programs)
+- 1,900+ X/Twitter followers
+- 1,000+ @sign Academy audience
+- 95% stakeholder satisfaction (Focus Publications)
+- 20% engagement growth (Focus Publications)
+- Team of 6 led at NeuraNet Labs (3 engineers, 2 designers, 1 growth)
+
+PUBLISHED WRITING
+- Ghost Mall Paradox™ (Medium/Substack) — AI labor theory
+- The Human Advantage: Why Soft Skills Are the New Code in 2026 (Medium)
+- Navigating the EU AI Act: A Practical Guide for AI Founders and SaaS Products (Medium)
+- The Death of the AI PM Roadmap: Why Principles Beat Metrics in 2026 (Medium, March 2026)
+- The Anthropic-Pentagon Dilemma (Medium) — AI ethics analysis
+- PACE Framework Article (Medium)
+
+SPEAKING
+- Hosts 'Minds of Machine' weekly live AI philosophy & strategy space on X — 200+ listeners/session
+- Represented Olivia AI at X spaces reaching 1,000+ participants
+
+VOICE & WRITING RULES
+- Always open with personal story/confession before argument — self-deprecating honesty is the strongest credibility signal
+- Emotional journey arc: confusion → discovery → clarity → framework
+- Simple, direct, conversational prose — never over-structured
+- Representative phrases: "I once owned a beautiful 50-feature roadmap." / "Suddenly everything changed." / "Speed matters — but what matters most is real impact on users."
+- Never use TRC framework
+- Frameworks always attributed to Paschal Obidi with ™ where indicated
+
+NUMBERS RULES
+- Never list Medium follower count (too small)
+- Never list Substack subscriber count (too small, just started)
+- Never list LinkedIn follower/connection counts
+- Always use: 1,900+ X followers, 200+ Minds of Machine listeners, 2,000+ community (Magnet X DAO)
+
+COVER LETTER BLOCKS AVAILABLE
+- Opening A (Confession): "I once believed that the sharpest product minds were the ones who could build the most features the fastest. Then I spent four years studying what happens to humans when technology moves faster than their capacity to adapt..."
+- Opening B (Intersection): "Most AI product leaders ask what their technology can do. I also ask what it should do — and why. That second question sounds philosophical. It is. And it is increasingly the most commercially valuable question in product..."
+- Opening C (Credentials): "I hold two First Class degrees in Philosophy — from Nnamdi Azikiwe University and Urbaniana University, Rome — and I am an IBM Certified Product Manager..."
+- Proof: NeuraVault PRD, cross-functional team of 6
+- Proof: Community scaling, VTV Framework, Farmroll GTM
+- Proof: Thought leadership, Minds of Machine, frameworks
+- Closing: "I am not looking for a role that tolerates philosophy alongside product. I am looking for an organization that understands why the combination is the advantage."
+`;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════════════
+let history = JSON.parse(localStorage.getItem('studio_history') || '[]');
+renderHistory();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// MAIN GENERATE
+// ═══════════════════════════════════════════════════════════════════════════
+async function generate() {
+  const jobDesc    = document.getElementById('jobDesc').value.trim();
+  const company    = document.getElementById('companyName').value.trim();
+  const role       = document.getElementById('roleTitle').value.trim();
+  const tone       = document.getElementById('tone').value;
+  const genCover   = document.getElementById('genCover').checked;
+  const genSummary = document.getElementById('genSummary').checked;
+  const genKW      = document.getElementById('genKeywords').checked;
+  const genTips    = document.getElementById('genTips').checked;
+  const genLI      = document.getElementById('genLinkedIn').checked;
+
+  if (!jobDesc) { setStatus('Paste a job description first.'); return; }
+
+  const btn = document.getElementById('generateBtn');
+  btn.disabled = true;
+  btn.textContent = 'Generating…';
+  btn.classList.add('loading');
+  showProgress(true);
+
+  // Clear output
+  document.getElementById('emptyState')?.remove();
+  document.getElementById('outputArea').innerHTML = '';
+
+  const outputs = [];
+  if (genSummary)  outputs.push('resume_summary');
+  if (genCover)    outputs.push('cover_letter');
+  if (genKW)       outputs.push('ats_keywords');
+  if (genTips)     outputs.push('strategy_tips');
+  if (genLI)       outputs.push('linkedin_message');
+
+  try {
+    for (let i = 0; i < outputs.length; i++) {
+      const type = outputs[i];
+      setStatus(statusLabel(type) + '…');
+      setProgress(((i) / outputs.length) * 85);
+      await generateSection(type, { jobDesc, company, role, tone });
+      setProgress(((i + 1) / outputs.length) * 90);
+    }
+
+    setProgress(100);
+    setStatus('Done ✦');
+    saveHistory(company, role);
+
+    setTimeout(() => {
+      showProgress(false);
+      setStatus('');
+      btn.disabled = false;
+      btn.textContent = 'Generate Application Materials';
+      btn.classList.remove('loading');
+    }, 1200);
+
+  } catch(err) {
+    setStatus('Error: ' + (err.message || 'Something went wrong'));
+    btn.disabled = false;
+    btn.textContent = 'Generate Application Materials';
+    btn.classList.remove('loading');
+    showProgress(false);
+    console.error(err);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SECTION GENERATOR
+// ═══════════════════════════════════════════════════════════════════════════
+async function generateSection(type, { jobDesc, company, role, tone }) {
+  const prompt = buildPrompt(type, { jobDesc, company, role, tone });
+
+  const card = createOutputCard(type, company, role);
+  document.getElementById('outputArea').appendChild(card);
+  const body = card.querySelector('.output-text');
+  body.classList.add('streaming-cursor');
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      stream: true,
+      system: `You are the Job Application Studio for Paschal Obidi. You generate tailored, high-quality job application materials based on his Master Profile. Always stay true to his voice, his real credentials, his real metrics. Never invent new achievements. Never exaggerate numbers. Use only the data provided in the Master Profile.
+
+${MASTER_PROFILE}`,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    throw new Error(err.error?.message || 'API error');
+  }
+
+  // Stream the response
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let fullText = '';
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value);
+    const lines = chunk.split('\n');
+
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        const data = line.slice(6);
+        if (data === '[DONE]') continue;
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+            fullText += parsed.delta.text;
+            body.textContent = fullText;
+          }
+        } catch(e) {}
+      }
+    }
+  }
+
+  body.classList.remove('streaming-cursor');
+
+  // Post-process keywords section
+  if (type === 'ats_keywords') {
+    renderKeywords(body, fullText);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PROMPTS
+// ═══════════════════════════════════════════════════════════════════════════
+function buildPrompt(type, { jobDesc, company, role, tone }) {
+  const toneInstructions = {
+    professional: 'Tone: professional, confident, polished. Authoritative without being stiff.',
+    visionary:    'Tone: visionary, philosophical, intellectually bold. Lead with ideas.',
+    concise:      'Tone: direct, no waste. Every sentence earns its place.',
+    warm:         'Tone: warm, conversational, human. Smart but approachable.'
+  }[tone];
+
+  const target = [company, role].filter(Boolean).join(' — ') || 'this role';
+
+  const base = `Job Description:\n"""\n${jobDesc}\n"""\n\nTarget: ${target}\n${toneInstructions}\n\n`;
+
+  const prompts = {
+
+    cover_letter: base + `Write a tailored, compelling cover letter for Paschal Obidi applying for ${target}.
+
+RULES:
+- Open with a personal confession or story — never "I am writing to apply". This is his strongest credibility signal.
+- Use the emotional arc: confusion → discovery → clarity → framework
+- Reference the specific company and role naturally
+- Include the NeuraVault PRD and cross-functional team leadership as the primary PM proof
+- Reference at least one original framework (Ghost Mall Paradox™, Human Premium™, PACE, or VTV) where relevant
+- End with the closing block: "I am not looking for a role that tolerates philosophy alongside product. I am looking for an organization that understands why the combination is the advantage."
+- Prose only — no bullet points in a cover letter
+- One page max — approximately 350–420 words
+- Do not include date, address headers, or "Dear Hiring Manager" — start directly with the opening paragraph
+- Sign off as: Paschal Obidi · obidipaschal@gmail.com · @MaxxifiedLian`,
+
+    resume_summary: base + `Write a tailored ATS-optimised Resume Summary for Paschal Obidi targeting ${target}.
+
+RULES:
+- 3–4 sentences maximum
+- Lead with his strongest differentiator for THIS specific role
+- Mirror the key terms and language from the job description (for ATS matching)
+- Include: philosopher-turned-AI strategist, IBM PM certification, dual First Class Philosophy degrees
+- Reference at least one original framework by name
+- End with his positioning toward the target role
+- Do NOT use bullet points — flowing prose sentences only
+- Keep it punchy and keyword-rich`,
+
+    ats_keywords: base + `Analyse the job description and return a structured ATS keyword analysis.
+
+Return your response in this EXACT format (plain text, no markdown):
+
+MATCH: [list keywords from JD that Paschal's profile already covers — comma separated]
+PARTIAL: [keywords partially covered or reframeable — comma separated]  
+MISSING: [important keywords Paschal genuinely lacks — comma separated]
+SCORE: [overall ATS match score as a percentage, e.g. 72%]
+ROLES_MATCH: [how well does Senior AI PM targeting align with this role — percentage]
+UNIQUE_EDGE: [2-3 sentences: what makes Paschal uniquely competitive for this specific role]`,
+
+    strategy_tips: base + `Give Paschal Obidi 5 specific, actionable application strategy tips for ${target}.
+
+Each tip should be specific to THIS job description — not generic advice.
+Consider: what to emphasise, what to downplay, which framework to lead with, how to handle any gaps, and what the hiring team is likely prioritising.
+Format: plain numbered list 1–5. Each tip 1–2 sentences. Specific, not vague.`,
+
+    linkedin_message: base + `Write a short, compelling LinkedIn message from Paschal Obidi to a recruiter or hiring manager at ${company || 'this company'} about ${role || 'this role'}.
+
+RULES:
+- Max 100 words
+- Not a cover letter — a human, direct message
+- Reference one specific thing about the company/role that connects to his background
+- End with a clear but soft CTA (happy to share more, would love to connect, etc.)
+- Do not be sycophantic or generic
+- Sound like a real person, not a template`
+  };
+
+  return prompts[type] || prompts.cover_letter;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// UI HELPERS
+// ═══════════════════════════════════════════════════════════════════════════
+const CARD_CONFIG = {
+  cover_letter:    { title: 'Cover Letter — Tailored', mono: false },
+  resume_summary:  { title: 'Resume Summary — ATS Optimised', mono: false },
+  ats_keywords:    { title: 'ATS Keyword Analysis', mono: true },
+  strategy_tips:   { title: 'Application Strategy Tips', mono: false },
+  linkedin_message:{ title: 'LinkedIn Message', mono: false },
+};
+
+function createOutputCard(type, company, role) {
+  const cfg = CARD_CONFIG[type];
+  const subtitle = [company, role].filter(Boolean).join(' · ');
+
+  const card = document.createElement('div');
+  card.className = 'output-card';
+  card.id = `card_${type}`;
+  card.innerHTML = `
+    <div class="output-card-header">
+      <div>
+        <div class="output-card-title">${cfg.title}</div>
+        ${subtitle ? `<div style="font-family:var(--fm);font-size:0.58rem;color:var(--gray);letter-spacing:0.1em;margin-top:4px">${subtitle}</div>` : ''}
+      </div>
+      <div class="output-card-actions">
+        <button class="btn-regen" onclick="regenSection('${type}')">↺ Redo</button>
+        <button class="btn-copy" onclick="copySection('${type}', this)">Copy</button>
+      </div>
+    </div>
+    <div class="output-card-body">
+      <div class="output-text ${cfg.mono ? 'mono' : ''}"></div>
+    </div>
+  `;
+  return card;
+}
+
+function renderKeywords(container, text) {
+  // Parse the structured keyword response
+  const lines = text.split('\n');
+  let html = '<div>';
+  let score = null, rolesMatch = null, uniqueEdge = null;
+
+  for (const line of lines) {
+    if (line.startsWith('MATCH:')) {
+      const kws = line.replace('MATCH:', '').trim().split(',').map(k => k.trim()).filter(Boolean);
+      html += `<div style="margin-bottom:8px;font-family:var(--fm);font-size:0.6rem;color:var(--green);letter-spacing:0.14em;text-transform:uppercase;margin-top:8px">✓ Strong Matches</div>`;
+      html += `<div class="keywords-grid" style="margin-bottom:16px">` + kws.map(k => `<span class="kw-chip match">${k}</span>`).join('') + '</div>';
+    } else if (line.startsWith('PARTIAL:')) {
+      const kws = line.replace('PARTIAL:', '').trim().split(',').map(k => k.trim()).filter(Boolean);
+      html += `<div style="margin-bottom:8px;font-family:var(--fm);font-size:0.6rem;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase">◎ Partial / Reframeable</div>`;
+      html += `<div class="keywords-grid" style="margin-bottom:16px">` + kws.map(k => `<span class="kw-chip partial">${k}</span>`).join('') + '</div>';
+    } else if (line.startsWith('MISSING:')) {
+      const kws = line.replace('MISSING:', '').trim().split(',').map(k => k.trim()).filter(Boolean);
+      html += `<div style="margin-bottom:8px;font-family:var(--fm);font-size:0.6rem;color:var(--red);letter-spacing:0.14em;text-transform:uppercase">✗ Gaps to Address</div>`;
+      html += `<div class="keywords-grid" style="margin-bottom:16px">` + kws.map(k => `<span class="kw-chip missing">${k}</span>`).join('') + '</div>';
+    } else if (line.startsWith('SCORE:')) {
+      score = line.replace('SCORE:', '').trim();
+    } else if (line.startsWith('ROLES_MATCH:')) {
+      rolesMatch = line.replace('ROLES_MATCH:', '').trim();
+    } else if (line.startsWith('UNIQUE_EDGE:')) {
+      uniqueEdge = line.replace('UNIQUE_EDGE:', '').trim();
+    }
+  }
+
+  if (score || rolesMatch) {
+    html += `<div style="height:1px;background:var(--line2);margin:16px 0"></div>`;
+    html += `<div class="score-row">`;
+    if (score) {
+      const pct = parseInt(score);
+      const cls = pct >= 70 ? 'high' : pct >= 45 ? 'mid' : 'low';
+      html += `<div class="score-item"><div class="score-num ${cls}">${score}</div><div class="score-label">ATS Match</div></div>`;
+    }
+    if (rolesMatch) {
+      const pct = parseInt(rolesMatch);
+      const cls = pct >= 70 ? 'high' : pct >= 45 ? 'mid' : 'low';
+      html += `<div class="score-item"><div class="score-num ${cls}">${rolesMatch}</div><div class="score-label">Role Alignment</div></div>`;
+    }
+    html += '</div>';
+  }
+
+  if (uniqueEdge) {
+    html += `<div style="padding:16px;background:rgba(201,168,76,0.06);border:1px solid var(--line);margin-top:4px">`;
+    html += `<div style="font-family:var(--fm);font-size:0.6rem;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px">Your Unique Edge</div>`;
+    html += `<div style="font-size:0.86rem;color:var(--cream);line-height:1.7">${uniqueEdge}</div></div>`;
+  }
+
+  html += '</div>';
+  container.innerHTML = html;
+  container.classList.remove('mono');
+}
+
+async function regenSection(type) {
+  const jobDesc = document.getElementById('jobDesc').value.trim();
+  const company = document.getElementById('companyName').value.trim();
+  const role    = document.getElementById('roleTitle').value.trim();
+  const tone    = document.getElementById('tone').value;
+  if (!jobDesc) return;
+
+  const card = document.getElementById(`card_${type}`);
+  const body = card.querySelector('.output-text');
+  const cfg  = CARD_CONFIG[type];
+  body.className = `output-text ${cfg.mono ? 'mono' : ''} streaming-cursor`;
+  body.textContent = '';
+
+  try {
+    const prompt = buildPrompt(type, { jobDesc, company, role, tone });
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        stream: true,
+        system: `You are the Job Application Studio for Paschal Obidi. Generate tailored application materials based strictly on his Master Profile below. Never invent achievements or exaggerate numbers.\n\n${MASTER_PROFILE}`,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let fullText = '';
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const lines = decoder.decode(value).split('\n');
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          try {
+            const parsed = JSON.parse(line.slice(6));
+            if (parsed.delta?.text) { fullText += parsed.delta.text; body.textContent = fullText; }
+          } catch(e) {}
+        }
+      }
+    }
+    body.classList.remove('streaming-cursor');
+    if (type === 'ats_keywords') renderKeywords(body, fullText);
+  } catch(e) {
+    body.classList.remove('streaming-cursor');
+    body.textContent = 'Error regenerating. Try again.';
+  }
+}
+
+function copySection(type, btn) {
+  const body = document.getElementById(`card_${type}`).querySelector('.output-text');
+  const text = body.innerText || body.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function statusLabel(type) {
+  return {
+    cover_letter:     'Writing cover letter',
+    resume_summary:   'Crafting resume summary',
+    ats_keywords:     'Analysing ATS keywords',
+    strategy_tips:    'Building strategy tips',
+    linkedin_message: 'Writing LinkedIn message',
+  }[type] || 'Generating';
+}
+
+function setStatus(msg) { document.getElementById('statusMsg').textContent = msg; }
+function setProgress(pct) { document.getElementById('progressFill').style.width = pct + '%'; }
+function showProgress(show) {
+  const bar = document.getElementById('progressBar');
+  bar.classList.toggle('active', show);
+  if (!show) document.getElementById('progressFill').style.width = '0%';
+}
+
+function saveHistory(company, role) {
+  const entry = {
+    id: Date.now(),
+    company: company || 'Unknown Company',
+    role: role || 'Unknown Role',
+    date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }),
+    jd: document.getElementById('jobDesc').value.trim().slice(0, 200),
+  };
+  history.unshift(entry);
+  if (history.length > 10) history = history.slice(0, 10);
+  localStorage.setItem('studio_history', JSON.stringify(history));
+  renderHistory();
+}
+
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  if (!history.length) {
+    list.innerHTML = '<div style="font-size:0.82rem;color:var(--gray2);text-align:center;padding:20px">No applications yet</div>';
+    return;
+  }
+  list.innerHTML = history.map(h => `
+    <div class="history-item" onclick="loadHistory('${h.id}')">
+      <div>
+        <div class="history-title">${h.company}</div>
+        <div class="history-meta">${h.role} · ${h.date}</div>
+      </div>
+      <div style="font-size:0.7rem;color:var(--gray2)">→</div>
+    </div>
+  `).join('');
+}
+
+function loadHistory(id) {
+  const entry = history.find(h => h.id == id);
+  if (!entry) return;
+  document.getElementById('companyName').value = entry.company;
+  document.getElementById('roleTitle').value = entry.role;
+  if (entry.jd) document.getElementById('jobDesc').value = entry.jd;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Paschal Obidi — AI Product Lead & Philosopher of AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --navy:   #0D1B2A;
+  --navy2:  #112033;
+  --navy3:  #0A1520;
+  --gold:   #C9A84C;
+  --gold2:  #E8C96A;
+  --gold3:  rgba(201,168,76,0.12);
+  --cream:  #F5F0E8;
+  --white:  #FAFAF8;
+  --gray:   #8A9BB0;
+  --gray2:  #4A5568;
+  --line:   rgba(201,168,76,0.2);
+  --line2:  rgba(255,255,255,0.06);
+  --fd:     'Cormorant Garamond', serif;
+  --fb:     'DM Sans', sans-serif;
+  --fm:     'DM Mono', monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--cream);font-family:var(--fb);font-size:16px;line-height:1.7;overflow-x:hidden}
+
+/* NOISE */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.35}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--navy)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* CURSOR */
+*, a { cursor: default; }
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:22px 64px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(13,27,42,0.98),transparent);backdrop-filter:blur(6px);transition:all 0.35s}
+nav.scrolled{background:rgba(10,21,32,0.97);padding:14px 64px;border-bottom:1px solid var(--line)}
+.nav-logo{font-family:var(--fd);font-size:1.45rem;font-weight:600;color:var(--cream);letter-spacing:0.02em;text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:38px;list-style:none}
+.nav-links a{color:var(--gray);font-size:0.78rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:color 0.2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width 0.25s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{padding:9px 24px;border:1px solid var(--gold);color:var(--gold);font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:all 0.25s;font-family:var(--fm)}
+.nav-cta:hover{background:var(--gold);color:var(--navy)}
+
+/* ── HERO ── */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 10vw;overflow:hidden}
+#hero-canvas{position:absolute;inset:0;z-index:0;opacity:0.4}
+.hero-bg-text{position:absolute;right:-1vw;top:50%;transform:translateY(-50%);font-family:var(--fd);font-size:clamp(100px,16vw,220px);font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(201,168,76,0.07);line-height:1;pointer-events:none;user-select:none;z-index:1}
+.hero-badge{font-family:var(--fm);font-size:0.7rem;color:var(--gold);letter-spacing:0.22em;text-transform:uppercase;border:1px solid var(--line);padding:7px 16px;display:inline-block;margin-bottom:28px;position:relative;z-index:2;opacity:0;animation:fadeUp 0.8s 0.2s forwards}
+.hero h1{font-family:var(--fd);font-size:clamp(48px,7vw,96px);font-weight:300;line-height:1.04;color:var(--cream);position:relative;z-index:2;opacity:0;animation:fadeUp 0.9s 0.4s forwards}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero h1 strong{font-weight:700;display:block}
+.hero-sub{font-size:1.02rem;color:var(--gray);max-width:500px;line-height:1.8;margin-top:28px;position:relative;z-index:2;opacity:0;animation:fadeUp 1s 0.6s forwards}
+.hero-actions{display:flex;gap:14px;margin-top:44px;position:relative;z-index:2;opacity:0;animation:fadeUp 1s 0.8s forwards}
+.btn-primary{padding:14px 34px;background:var(--gold);color:var(--navy);font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:all 0.25s}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-2px)}
+.btn-outline{padding:14px 34px;border:1px solid rgba(201,168,76,0.35);color:var(--cream);font-size:0.82rem;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;text-decoration:none;transition:all 0.25s}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.hero-stats{position:absolute;bottom:52px;right:10vw;display:flex;gap:52px;z-index:2;opacity:0;animation:fadeUp 1s 1s forwards}
+.stat-item{text-align:right}
+.stat-num{font-family:var(--fd);font-size:2.8rem;font-weight:700;color:var(--gold);line-height:1}
+.stat-label{font-size:0.68rem;color:var(--gray);letter-spacing:0.14em;text-transform:uppercase;margin-top:4px}
+.scroll-cue{position:absolute;bottom:58px;left:10vw;display:flex;align-items:center;gap:12px;font-size:0.68rem;color:var(--gray);letter-spacing:0.18em;text-transform:uppercase;z-index:2;opacity:0;animation:fadeUp 1s 1.2s forwards;font-family:var(--fm)}
+.scroll-line{width:40px;height:1px;background:var(--gold);animation:scrollPulse 2s infinite}
+
+/* ── SECTION COMMON ── */
+section{position:relative;z-index:1}
+.section-wrap{max-width:1200px;margin:0 auto;padding:0 64px}
+.section-label{font-family:var(--fm);font-size:0.68rem;color:var(--gold);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.section-label::before{content:'';width:28px;height:1px;background:var(--gold);display:inline-block}
+.section-title{font-family:var(--fd);font-size:clamp(34px,5vw,60px);font-weight:300;line-height:1.08;color:var(--cream)}
+.section-title em{font-style:italic;color:var(--gold)}
+.section-intro{font-size:1rem;color:var(--gray);max-width:600px;line-height:1.85;margin-top:18px}
+.gold-divider{width:56px;height:2px;background:var(--gold);margin:28px 0}
+.divider-line{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--line),transparent);margin:0}
+
+/* ── ABOUT ── */
+.about{padding:140px 0 120px}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:88px;align-items:start}
+.about-text{font-size:1.02rem;color:var(--gray);line-height:1.92;margin-bottom:22px}
+.about-text strong{color:var(--cream);font-weight:500}
+.philosophy-quote{padding:30px 36px;border-left:3px solid var(--gold);background:var(--gold3);margin-top:36px}
+.philosophy-quote p{font-family:var(--fd);font-size:1.3rem;font-weight:300;font-style:italic;color:var(--cream);line-height:1.65}
+.philosophy-quote cite{display:block;margin-top:10px;font-size:0.7rem;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;font-style:normal}
+.credentials{display:flex;flex-direction:column;gap:14px;margin-top:36px}
+.credential{display:flex;gap:16px;align-items:flex-start;padding:18px 22px;border:1px solid var(--line2);transition:all 0.25s}
+.credential:hover{border-color:var(--line);background:var(--gold3)}
+.cred-icon{font-size:1.5rem;flex-shrink:0;margin-top:2px}
+.cred-title{font-size:0.9rem;font-weight:600;color:var(--cream)}
+.cred-sub{font-size:0.76rem;color:var(--gray);margin-top:3px}
+
+/* ── JOURNEY / TIMELINE ── */
+.journey{padding:100px 0 120px;background:linear-gradient(to bottom,transparent,rgba(10,21,32,0.6),transparent)}
+.timeline{margin-top:64px;position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,transparent,var(--gold),var(--gold),transparent)}
+.tl-item{position:relative;margin-bottom:52px;padding-left:44px}
+.tl-item:last-child{margin-bottom:0}
+.tl-dot{position:absolute;left:-7px;top:6px;width:15px;height:15px;border:2px solid var(--gold);background:var(--navy);transform:rotate(45deg);transition:background 0.25s}
+.tl-item:hover .tl-dot{background:var(--gold)}
+.tl-year{font-family:var(--fm);font-size:0.66rem;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:6px}
+.tl-title{font-family:var(--fd);font-size:1.45rem;font-weight:400;color:var(--cream);margin-bottom:6px;line-height:1.2}
+.tl-org{font-size:0.8rem;color:var(--gold);font-weight:500;letter-spacing:0.06em;margin-bottom:10px}
+.tl-desc{font-size:0.88rem;color:var(--gray);line-height:1.75;max-width:640px}
+
+/* ── CASE STUDIES ── */
+.work{padding:100px 0 120px}
+.work-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:64px}
+.case-card{position:relative;overflow:hidden;padding:52px 46px;background:rgba(255,255,255,0.018);border:1px solid var(--line2);transition:all 0.4s}
+.case-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
+.case-card:hover::before{transform:scaleX(1)}
+.case-card:hover{background:rgba(201,168,76,0.04);border-color:var(--line);transform:translateY(-4px)}
+.case-card.featured{grid-column:1/-1;padding:64px 56px;background:linear-gradient(135deg,rgba(201,168,76,0.07),rgba(13,27,42,0))}
+.case-tag{font-family:var(--fm);font-size:0.64rem;color:var(--gold);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:18px}
+.case-title{font-family:var(--fd);font-size:1.95rem;font-weight:400;color:var(--cream);line-height:1.18;margin-bottom:14px}
+.case-card.featured .case-title{font-size:2.4rem}
+.case-role{font-size:0.76rem;color:var(--gold);font-weight:500;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:18px}
+.case-desc{font-size:0.9rem;color:var(--gray);line-height:1.78;margin-bottom:26px;max-width:600px}
+.case-outcomes{display:flex;flex-direction:column;gap:8px}
+.case-card.featured .case-outcomes{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.outcome-item{display:flex;align-items:flex-start;gap:10px;font-size:0.84rem;color:var(--gray)}
+.outcome-item::before{content:'▸';color:var(--gold);font-size:0.68rem;flex-shrink:0;margin-top:4px}
+.case-metrics{display:flex;gap:40px;margin-top:36px;padding-top:28px;border-top:1px solid var(--line2)}
+.case-metric-num{font-family:var(--fd);font-size:2rem;font-weight:700;color:var(--gold);line-height:1}
+.case-metric-label{font-size:0.68rem;color:var(--gray);letter-spacing:0.08em;margin-top:3px}
+.case-num{position:absolute;right:32px;bottom:28px;font-family:var(--fd);font-size:5rem;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(201,168,76,0.09);line-height:1;user-select:none}
+.team-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.team-badge{padding:5px 12px;border:1px solid var(--line);font-family:var(--fm);font-size:0.62rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase}
+
+/* ── FRAMEWORKS ── */
+.frameworks{padding:100px 0 120px;background:linear-gradient(to bottom,transparent,rgba(10,21,32,0.5),transparent)}
+.fw-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-top:64px}
+.fw-card{padding:52px 44px;background:rgba(255,255,255,0.015);border:1px solid var(--line2);position:relative;overflow:hidden;transition:all 0.35s}
+.fw-card:hover{background:rgba(201,168,76,0.05);border-color:var(--line)}
+.fw-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0;transition:opacity 0.35s}
+.fw-card:hover::after{opacity:1}
+.fw-accent{position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle at top right,rgba(201,168,76,0.08),transparent 70%);pointer-events:none}
+.fw-icon{font-size:2.2rem;margin-bottom:20px}
+.fw-name{font-family:var(--fd);font-size:1.65rem;font-weight:600;color:var(--cream);line-height:1.2;margin-bottom:6px}
+.fw-tag{font-family:var(--fm);font-size:0.62rem;color:var(--gold);letter-spacing:0.16em;text-transform:uppercase;margin-bottom:18px}
+.fw-desc{font-size:0.87rem;color:var(--gray);line-height:1.8}
+.fw-insight{font-family:var(--fd);font-size:1.05rem;font-style:italic;color:rgba(201,168,76,0.8);margin-top:16px;line-height:1.5}
+
+/* ── NEURAVAULT PRD SPOTLIGHT ── */
+.prd{padding:100px 0 120px}
+.prd-wrap{border:1px solid var(--line);overflow:hidden;margin-top:64px}
+.prd-header{padding:52px 56px;background:linear-gradient(135deg,rgba(201,168,76,0.08),transparent);border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center}
+.prd-title-block .prd-tag{font-family:var(--fm);font-size:0.66rem;color:var(--gold);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:12px}
+.prd-title-block h3{font-family:var(--fd);font-size:2.6rem;font-weight:400;color:var(--cream);line-height:1.1;margin-bottom:8px}
+.prd-title-block p{font-size:0.9rem;color:var(--gray);max-width:520px;line-height:1.75}
+.prd-stat-cluster{display:flex;gap:40px;flex-shrink:0}
+.prd-stat{text-align:center}
+.prd-stat-num{font-family:var(--fd);font-size:2.4rem;font-weight:700;color:var(--gold);line-height:1}
+.prd-stat-label{font-size:0.68rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px}
+.prd-body{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:none}
+.prd-col{padding:40px 44px;border-right:1px solid var(--line2)}
+.prd-col:last-child{border-right:none}
+.prd-col-title{font-family:var(--fm);font-size:0.66rem;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--line2)}
+.prd-list{display:flex;flex-direction:column;gap:12px}
+.prd-list-item{display:flex;align-items:flex-start;gap:10px;font-size:0.84rem;color:var(--gray);line-height:1.6}
+.prd-list-item::before{content:'→';color:var(--gold);flex-shrink:0;font-family:var(--fm)}
+.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.team-item{padding:14px 16px;background:rgba(255,255,255,0.025);border:1px solid var(--line2)}
+.team-role{font-size:0.8rem;font-weight:600;color:var(--cream)}
+.team-count{font-size:0.72rem;color:var(--gold);margin-top:2px}
+
+/* ── THOUGHT LEADERSHIP ── */
+.thought{padding:100px 0 120px;background:linear-gradient(to bottom,transparent,rgba(10,21,32,0.4),transparent)}
+.thought-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:64px}
+.article-card{padding:40px 34px;border:1px solid var(--line2);background:rgba(255,255,255,0.015);transition:all 0.3s;position:relative;overflow:hidden}
+.article-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transform-origin:top;transition:transform 0.3s}
+.article-card:hover::before{transform:scaleY(1)}
+.article-card:hover{background:rgba(201,168,76,0.04);transform:translateX(4px)}
+.article-platform{font-family:var(--fm);font-size:0.62rem;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:14px}
+.article-title{font-family:var(--fd);font-size:1.22rem;font-weight:400;color:var(--cream);line-height:1.35;margin-bottom:12px}
+.article-desc{font-size:0.82rem;color:var(--gray);line-height:1.72}
+.thought-cta{margin-top:48px;display:flex;align-items:center;gap:20px}
+.thought-cta-text{font-size:0.88rem;color:var(--gray)}
+.thought-cta a{color:var(--gold);text-decoration:none;font-weight:500;border-bottom:1px solid var(--line);padding-bottom:2px;transition:border-color 0.2s}
+.thought-cta a:hover{border-color:var(--gold)}
+
+/* ── SPEAKING ── */
+.speaking{padding:100px 0 120px}
+.speaking-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:72px;align-items:center;margin-top:64px}
+.speaking-feature{padding:56px 52px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(201,168,76,0.07),rgba(13,27,42,0));position:relative}
+.speaking-feature::before{content:'"';position:absolute;top:-16px;left:38px;font-family:var(--fd);font-size:6rem;color:var(--gold);opacity:0.18;line-height:1}
+.speaking-show-name{font-family:var(--fd);font-size:2.2rem;font-weight:700;color:var(--cream);margin-bottom:6px}
+.speaking-show-sub{font-size:0.78rem;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:22px;font-family:var(--fm)}
+.speaking-desc{font-size:0.92rem;color:var(--gray);line-height:1.82;margin-bottom:28px}
+.speaking-stat-row{display:flex;gap:36px}
+.spk-stat-num{font-family:var(--fd);font-size:2.2rem;font-weight:700;color:var(--gold);line-height:1}
+.spk-stat-label{font-size:0.68rem;color:var(--gray);letter-spacing:0.08em;margin-top:3px}
+.topics-list{display:flex;flex-direction:column;gap:14px;margin-top:32px;padding-top:28px;border-top:1px solid var(--line2)}
+.topic-item{display:flex;align-items:center;gap:12px;font-size:0.85rem;color:var(--gray)}
+.topic-item::before{content:'';width:6px;height:6px;background:var(--gold);flex-shrink:0;transform:rotate(45deg)}
+.community-list{display:flex;flex-direction:column;gap:16px}
+.community-item{padding:24px 26px;border:1px solid var(--line2);background:rgba(255,255,255,0.014);transition:all 0.25s}
+.community-item:hover{border-color:var(--line);background:var(--gold3)}
+.comm-title{font-size:0.95rem;font-weight:600;color:var(--cream);margin-bottom:3px}
+.comm-role{font-size:0.75rem;color:var(--gold);letter-spacing:0.07em;margin-bottom:8px;font-family:var(--fm)}
+.comm-desc{font-size:0.8rem;color:var(--gray);line-height:1.62}
+
+/* ── TOOLS ── */
+.tools{padding:80px 0 100px;background:linear-gradient(to bottom,transparent,rgba(10,21,32,0.5),transparent)}
+.tools-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:48px}
+.tool-chip{padding:10px 20px;border:1px solid var(--line2);font-family:var(--fm);font-size:0.72rem;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase;transition:all 0.25s;position:relative;overflow:hidden}
+.tool-chip::before{content:'';position:absolute;inset:0;background:var(--gold3);transform:translateX(-100%);transition:transform 0.3s}
+.tool-chip:hover{color:var(--cream);border-color:var(--line)}
+.tool-chip:hover::before{transform:translateX(0)}
+.tool-chip span{position:relative;z-index:1}
+
+/* ── CAIO VISION ── */
+.vision{padding:100px 0 120px}
+.vision-card{padding:72px 80px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(201,168,76,0.07),transparent,rgba(13,27,42,0.4));position:relative;overflow:hidden;margin-top:64px}
+.vision-card::after{content:'CAIO';position:absolute;right:-10px;bottom:-20px;font-family:var(--fd);font-size:10rem;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(201,168,76,0.07);pointer-events:none;user-select:none;line-height:1}
+.vision-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.vision-text{font-size:1.02rem;color:var(--gray);line-height:1.9;margin-bottom:20px}
+.vision-text strong{color:var(--cream);font-weight:500}
+.vision-pillars{display:flex;flex-direction:column;gap:20px}
+.pillar{padding:22px 26px;border-left:3px solid var(--gold);background:rgba(13,27,42,0.6)}
+.pillar-title{font-size:0.88rem;font-weight:600;color:var(--cream);margin-bottom:6px}
+.pillar-desc{font-size:0.8rem;color:var(--gray);line-height:1.65}
+
+/* ── CTA ── */
+.cta-section{padding:140px 0;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.cta-section::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.cta-bg-text{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--fd);font-size:clamp(80px,14vw,180px);font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(201,168,76,0.055);white-space:nowrap;pointer-events:none;user-select:none}
+.cta-label{font-family:var(--fm);font-size:0.68rem;color:var(--gold);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:22px}
+.cta-title{font-family:var(--fd);font-size:clamp(38px,6vw,78px);font-weight:300;color:var(--cream);line-height:1.1;margin-bottom:22px}
+.cta-title em{font-style:italic;color:var(--gold)}
+.cta-sub{font-size:0.98rem;color:var(--gray);max-width:500px;margin:0 auto 48px;line-height:1.75}
+.cta-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:52px}
+.cta-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.cta-link{padding:10px 22px;border:1px solid var(--line2);color:var(--gray);font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:all 0.25s;font-family:var(--fm)}
+.cta-link:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── FOOTER ── */
+footer{padding:30px 64px;border-top:1px solid var(--line2);display:flex;justify-content:space-between;align-items:center;font-size:0.76rem;color:var(--gray)}
+footer a{color:var(--gray);text-decoration:none;transition:color 0.2s}
+footer a:hover{color:var(--gold)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.72s ease,transform 0.72s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scrollPulse{0%,100%{opacity:1}50%{opacity:0.25}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  nav{padding:16px 32px}nav.scrolled{padding:12px 32px}
+  .section-wrap{padding:0 32px}
+  .hero{padding:0 6vw}
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .work-grid{grid-template-columns:1fr}
+  .case-card.featured{grid-column:auto}
+  .fw-grid{grid-template-columns:1fr}
+  .prd-body{grid-template-columns:1fr}
+  .prd-col{border-right:none;border-bottom:1px solid var(--line2)}
+  .thought-grid{grid-template-columns:1fr 1fr}
+  .speaking-grid{grid-template-columns:1fr}
+  .vision-grid{grid-template-columns:1fr}
+  .vision-card{padding:48px 40px}
+  .prd-header{grid-template-columns:1fr;gap:28px}
+}
+@media(max-width:640px){
+  nav{padding:14px 20px}
+  .nav-links,.nav-cta{display:none}
+  .section-wrap{padding:0 20px}
+  .thought-grid{grid-template-columns:1fr}
+  .hero-stats{position:relative;bottom:auto;right:auto;flex-direction:row;margin-top:40px}
+  .hero-stats .stat-item{text-align:left}
+  footer{flex-direction:column;gap:12px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#home" class="nav-logo">Paschal <span>Obidi</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#frameworks">Frameworks</a></li>
+    <li><a href="#thought">Writing</a></li>
+    <li><a href="#speaking">Speaking</a></li>
+    <li><a href="#vision">Vision</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Let's Talk</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-bg-text">OBIDI</div>
+  <div class="hero-badge">AI Product Lead · Philosopher · Strategist</div>
+  <h1>
+    Where <em>philosophy</em><br>
+    <strong>meets product.</strong>
+  </h1>
+  <p class="hero-sub">I don't just ask what AI can do — I ask what it <em>should</em> do, and why. Building AI products that are commercially sharp, ethically sound, and strategically inevitable.</p>
+  <div class="hero-actions">
+    <a href="#work" class="btn-primary">View My Work</a>
+    <a href="#contact" class="btn-outline">Let's Connect</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">200+</div>
+      <div class="stat-label">Weekly Listeners</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">2K+</div>
+      <div class="stat-label">Community Built</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4+</div>
+      <div class="stat-label">Original Frameworks</div>
+    </div>
+  </div>
+  <div class="scroll-cue">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-wrap">
+    <div class="about-grid">
+      <div class="about-left reveal">
+        <div class="section-label">Who I Am</div>
+        <h2 class="section-title">The philosopher<br>who <em>ships.</em></h2>
+        <div class="gold-divider"></div>
+        <p class="about-text">I hold <strong>two First Class degrees in Philosophy</strong> — from Nnamdi Azikiwe University, Awka and Urbaniana University, Rome — and I am an <strong>IBM Certified Product Manager</strong>. That combination is not accidental. It is the foundation of everything I build.</p>
+        <p class="about-text">Most AI product leaders ask "what can this do?" I also ask "what should it do, and for whom?" That second question — the ethical one, the philosophical one — is increasingly the most important question in product. And it's the one most teams skip.</p>
+        <p class="about-text">I have built communities from zero, authored original frameworks, shipped PRDs, hosted live AI philosophy spaces, and founded Nigeria's dedicated Cardano ecosystem. I operate at the intersection of <strong>AI strategy, product execution, and ethical governance</strong>.</p>
+        <div class="philosophy-quote">
+          <p>"Blockchain is the engine, not the story — technology must be invisible; impact must be visible."</p>
+          <cite>— Paschal Obidi, Aquara.io Strategic Audit</cite>
+        </div>
+      </div>
+      <div class="about-right reveal">
+        <div class="credentials">
+          <div class="credential">
+            <div class="cred-icon">🎓</div>
+            <div>
+              <div class="cred-title">B.A. Philosophy — First Class Honours</div>
+              <div class="cred-sub">Nnamdi Azikiwe University, Awka · 2020–2024<br>Certified Philosopher of Artificial Intelligence</div>
+            </div>
+          </div>
+          <div class="credential">
+            <div class="cred-icon">🏛️</div>
+            <div>
+              <div class="cred-title">B.Phil. Philosophy — First Class Honours</div>
+              <div class="cred-sub">Urbaniana University, Rome · 2020–2024<br>Ethics, Epistemology & Philosophy of Mind</div>
+            </div>
+          </div>
+          <div class="credential">
+            <div class="cred-icon">📋</div>
+            <div>
+              <div class="cred-title">IBM Certified Product Manager</div>
+              <div class="cred-sub">IBM / Coursera · Product Strategy & Lifecycle</div>
+            </div>
+          </div>
+          <div class="credential">
+            <div class="cred-icon">🎙️</div>
+            <div>
+              <div class="cred-title">Host — Minds of Machine</div>
+              <div class="cred-sub">Weekly AI philosophy space · X (Twitter) · 200+ listeners/session</div>
+            </div>
+          </div>
+          <div class="credential">
+            <div class="cred-icon">🌍</div>
+            <div>
+              <div class="cred-title">Founder — Cardano Nigeria</div>
+              <div class="cred-sub">Nigeria's official Cardano community · 2025–Present</div>
+            </div>
+          </div>
+          <div class="credential">
+            <div class="cred-icon">✍️</div>
+            <div>
+              <div class="cred-title">Published Thought Leader</div>
+              <div class="cred-sub">Medium · X · Substack @MaxxifiedLian · 1,900+ niche AI/Web3 followers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- JOURNEY -->
+<section class="journey" id="journey">
+  <div class="section-wrap">
+    <div class="section-label reveal">Career Journey</div>
+    <h2 class="section-title reveal">Built from <em>first principles.</em></h2>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2020–2024</div>
+        <div class="tl-title">Dual Philosophy Degrees — First Class</div>
+        <div class="tl-org">Nnamdi Azikiwe University & Urbaniana University Rome</div>
+        <div class="tl-desc">Specialized in AI ethics, societal impacts, and the philosophy of mind. Graduated First Class at both institutions. This is not background — it is the differentiator.</div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2023–2024</div>
+        <div class="tl-title">Editor-in-Chief & Project Manager</div>
+        <div class="tl-org">Focus Publications / Editorial Crew</div>
+        <div class="tl-desc">Led a 20-member team. Executed 50+ content campaigns. 95% stakeholder satisfaction rate. Built the operational and leadership muscle that now feeds every PM role I take on.</div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2023–2024</div>
+        <div class="tl-title">Crypto Educator & Community Builder</div>
+        <div class="tl-org">@sign Academy</div>
+        <div class="tl-desc">Educated 1,000+ active audience members in Web3 and blockchain fundamentals. Awarded @sign Support Warrior NFT. Recognized officially as "Sign Philosopher and Onboarder."</div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2024</div>
+        <div class="tl-title">Lead Product Strategist</div>
+        <div class="tl-org">Farmroll — SocialFi / AI LaunchPad</div>
+        <div class="tl-desc">Designed the VTV Framework (Visibility, Trend, Virality). Repositioned the core token. Built the Assitroll B2B program. First original go-to-market strategy applied at commercial scale.</div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2024</div>
+        <div class="tl-title">Product Manager & Ecosystem Strategist</div>
+        <div class="tl-org">Aquara.io — Cardano / RWA / DePIN</div>
+        <div class="tl-desc">Full strategic audit of a Cardano RWA project. Identified 3 critical blockers. Designed Global-Local roadmap. Origin of my most-cited strategic principle: "Technology must be invisible; impact must be visible."</div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2024–Present</div>
+        <div class="tl-title">Product Manager · AI/Blockchain Advisor</div>
+        <div class="tl-org">NeuraNet Labs — AI / DePIN / Privacy Tech</div>
+        <div class="tl-desc">Authored the NeuraVault PRD. Led a cross-functional team of 6. Reported to Head of Product. First full PM engagement with engineers, designers, and growth — the full product triangle.</div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2025–Present</div>
+        <div class="tl-title">Founder</div>
+        <div class="tl-org">Cardano Nigeria</div>
+        <div class="tl-desc">Nigeria's dedicated Cardano community. Zero budget. Zero team. Building from grassroots with education, partnerships, and a 200+ campus tour narrative running in 2026.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- CASE STUDIES -->
+<section class="work" id="work">
+  <div class="section-wrap">
+    <div class="section-label reveal">Case Studies</div>
+    <h2 class="section-title reveal">Products I've <em>shaped.</em></h2>
+    <p class="section-intro reveal">Real strategy. Real teams. Real outcomes. Each engagement below represents a distinct product challenge — and a distinct solution framework.</p>
+    <div class="work-grid" style="margin-top:64px">
+
+      <!-- FEATURED: NeuraVault -->
+      <div class="case-card featured reveal">
+        <div class="case-tag">Featured · AI / DePIN / Privacy Tech</div>
+        <div class="case-title">NeuraVault — AI-Powered Decentralized Data Vault</div>
+        <div class="case-role">Product Manager · NeuraNet Labs · 2024</div>
+        <div class="case-desc">NeuraNet Labs is building the future of ethical AI training data. The vision: individuals and startups should be able to contribute, license, and monetize their data to AI companies — privately, securely, and on their own terms. I was brought in to translate that vision into a product. I authored the NeuraVault PRD, led the cross-functional team, and defined the product architecture from first principles.</div>
+        <div class="case-outcomes">
+          <div class="outcome-item">Authored full PRD: user stories, acceptance criteria, success metrics across 3 user archetypes (individuals, startups, AI companies)</div>
+          <div class="outcome-item">Led 6-person cross-functional team: 3 engineers, 2 product designers, 1 growth lead — reporting to Head of Product</div>
+          <div class="outcome-item">Defined privacy-preserving AI training as core value proposition; smart contract architecture as trust mechanism</div>
+          <div class="outcome-item">Owned backlog prioritization, sprint planning, and investor-facing product narrative</div>
+        </div>
+        <div class="team-badges">
+          <div class="team-badge">3 Engineers</div>
+          <div class="team-badge">2 Product Designers</div>
+          <div class="team-badge">1 Growth Lead</div>
+          <div class="team-badge">1 AI/Blockchain Advisor</div>
+          <div class="team-badge">Head of Product (Reporting Line)</div>
+        </div>
+      </div>
+
+      <!-- Farmroll -->
+      <div class="case-card reveal">
+        <div class="case-tag">Go-to-Market · SocialFi / AI Platform</div>
+        <div class="case-title">Farmroll — From Invisible to Unmissable</div>
+        <div class="case-role">Lead Product Strategist · 2024</div>
+        <div class="case-desc">An AI-powered launchpad with zero market presence. The challenge: shift the team's mindset from "build it and they'll come" to proactive ecosystem building — without a large budget.</div>
+        <div class="case-outcomes">
+          <div class="outcome-item">Designed the VTV Framework (Visibility, Trend, Virality) — original GTM strategy now in active use</div>
+          <div class="outcome-item">Repositioned core token as 'Genesis Asset' — created early-access investor narrative</div>
+          <div class="outcome-item">Built Assitroll B2B program: premium launchpad partner destination for high-value projects</div>
+          <div class="outcome-item">Simplified questing UX to reward-first design — reduced new user friction</div>
+        </div>
+        <div class="case-num">01</div>
+      </div>
+
+      <!-- Aquara -->
+      <div class="case-card reveal">
+        <div class="case-tag">Strategic Audit · Cardano / RWA / DePIN</div>
+        <div class="case-title">Aquara.io — Turning Blockchain Into a Trust Signal</div>
+        <div class="case-role">Product Manager & Ecosystem Strategist · 2024</div>
+        <div class="case-desc">A Cardano RWA project with a powerful mission — water decentralization in Africa — but crippling strategic blind spots. Full audit. Full roadmap redesign.</div>
+        <div class="case-outcomes">
+          <div class="outcome-item">Identified 3 critical blockers: market invisibility, treasury volatility (50/50 BTC-ETF model), roadmap friction</div>
+          <div class="outcome-item">Designed 'Global-Local' roadmap: phased milestones, diversified treasury, continental grassroots foundations</div>
+          <div class="outcome-item">Reframed core narrative: "Blockchain is the engine, not the story"</div>
+        </div>
+        <div class="case-num">02</div>
+      </div>
+
+      <!-- Magnet X -->
+      <div class="case-card reveal">
+        <div class="case-tag">Community · Web3 / AI DAO</div>
+        <div class="case-title">Magnet X DAO — Community as a Product</div>
+        <div class="case-role">Product Manager & B2B Strategist · 2024–Present</div>
+        <div class="case-desc">Zero to 2,000+ organic followers. Zero to 3 B2B partnerships reaching 150K+ combined followers. Proof that community, built right, is a product in itself.</div>
+        <div class="case-outcomes">
+          <div class="outcome-item">2,000+ active organic community members from zero</div>
+          <div class="outcome-item">3 B2B partnerships: combined influencer reach 150K+ followers</div>
+          <div class="outcome-item">500+ participants educated through structured AI/Web3 learning programs</div>
+          <div class="outcome-item">Drafted full organizational working plan: roles, workflows, accountability</div>
+        </div>
+        <div class="case-num">03</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- NEURAVAULT PRD DEEP DIVE -->
+<section class="prd" id="prd">
+  <div class="section-wrap">
+    <div class="section-label reveal">Product Deep Dive</div>
+    <h2 class="section-title reveal">Inside the <em>NeuraVault PRD.</em></h2>
+    <div class="prd-wrap reveal">
+      <div class="prd-header">
+        <div class="prd-title-block">
+          <div class="prd-tag">PRD · NeuraNet Labs · AI / DePIN / Privacy Tech</div>
+          <h3>NeuraVault: Decentralized Data Vault</h3>
+          <p>A privacy-preserving AI training data marketplace built on smart contracts. Individuals and startups contribute, license, and monetize their data to AI companies — on their own terms.</p>
+        </div>
+        <div class="prd-stat-cluster">
+          <div class="prd-stat">
+            <div class="prd-stat-num">3</div>
+            <div class="prd-stat-label">User Archetypes</div>
+          </div>
+          <div class="prd-stat">
+            <div class="prd-stat-num">6</div>
+            <div class="prd-stat-label">Team Members Led</div>
+          </div>
+          <div class="prd-stat">
+            <div class="prd-stat-num">1</div>
+            <div class="prd-stat-label">Full PRD Authored</div>
+          </div>
+        </div>
+      </div>
+      <div class="prd-body">
+        <div class="prd-col">
+          <div class="prd-col-title">Problem Space</div>
+          <div class="prd-list">
+            <div class="prd-list-item">AI companies desperately need high-quality training data but acquisition is unethical, opaque, and legally risky</div>
+            <div class="prd-list-item">Individuals generate enormous data value but receive nothing in return</div>
+            <div class="prd-list-item">No privacy-preserving mechanism exists to let users contribute data without surrendering control</div>
+            <div class="prd-list-item">Smart contract infrastructure enables trustless licensing — the technology is ready; the product wasn't</div>
+          </div>
+        </div>
+        <div class="prd-col">
+          <div class="prd-col-title">Product Scope (PRD)</div>
+          <div class="prd-list">
+            <div class="prd-list-item">User stories mapped across 3 archetypes: Individual Contributors, Startup Data Owners, AI Company Buyers</div>
+            <div class="prd-list-item">Acceptance criteria defined for core vault, licensing module, and reward distribution</div>
+            <div class="prd-list-item">Success metrics: data contributor activation rate, license agreement velocity, buyer retention</div>
+            <div class="prd-list-item">Privacy-preserving training as non-negotiable core constraint — not a feature, a foundation</div>
+            <div class="prd-list-item">Sprint planning and backlog prioritization across 3-engineer team</div>
+          </div>
+        </div>
+        <div class="prd-col">
+          <div class="prd-col-title">Team Structure</div>
+          <div class="team-grid">
+            <div class="team-item">
+              <div class="team-role">Engineers</div>
+              <div class="team-count">3 members</div>
+            </div>
+            <div class="team-item">
+              <div class="team-role">Product Designers</div>
+              <div class="team-count">2 members</div>
+            </div>
+            <div class="team-item">
+              <div class="team-role">Growth Lead</div>
+              <div class="team-count">1 member</div>
+            </div>
+            <div class="team-item">
+              <div class="team-role">AI/Blockchain Advisor</div>
+              <div class="team-count">1 mentor</div>
+            </div>
+          </div>
+          <div class="prd-col-title" style="margin-top:20px">Reporting Line</div>
+          <div class="prd-list">
+            <div class="prd-list-item">Reported directly to Head of Product</div>
+            <div class="prd-list-item">Full PRD, roadmap, and investor narrative ownership</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- FRAMEWORKS -->
+<section class="frameworks" id="frameworks">
+  <div class="section-wrap">
+    <div class="section-label reveal">Intellectual Property</div>
+    <h2 class="section-title reveal">Original <em>frameworks.</em></h2>
+    <p class="section-intro reveal">These are not borrowed methodologies. They are frameworks I built, named, and published — each emerging from a real product challenge or philosophical inquiry. All IP attributed to Paschal Obidi.</p>
+    <div class="fw-grid">
+
+      <div class="fw-card reveal">
+        <div class="fw-accent"></div>
+        <div class="fw-icon">🏚️</div>
+        <div class="fw-name">Ghost Mall Paradox<span style="color:var(--gold)">™</span></div>
+        <div class="fw-tag">Economic Theory · AI & Labor Markets</div>
+        <div class="fw-desc">An original economic theory arguing that AI-driven job displacement is ultimately self-correcting — because capitalism's circular flow mechanics require consumers with purchasing power. When AI destroys jobs, it destroys its own market. The paradox forces a reckoning: augmentation over replacement is not just ethical, it is economically inevitable.</div>
+        <div class="fw-insight">"AI cannot automate away the customer."</div>
+      </div>
+
+      <div class="fw-card reveal">
+        <div class="fw-accent"></div>
+        <div class="fw-icon">👑</div>
+        <div class="fw-name">Human Premium<span style="color:var(--gold)">™</span></div>
+        <div class="fw-tag">Value Framework · Post-AI Economy</div>
+        <div class="fw-desc">A framework defining the irreducible human value proposition in an AI-saturated economy. Identifies three premium signals — emotional intelligence, ethical judgment, and contextual creativity — that AI cannot replicate at commercial scale. Designed for individuals navigating career strategy and for organizations building human-AI hybrid teams.</div>
+        <div class="fw-insight">"In an age of infinite AI output, irreplaceable humans become the scarcest resource."</div>
+      </div>
+
+      <div class="fw-card reveal">
+        <div class="fw-accent"></div>
+        <div class="fw-icon">⚙️</div>
+        <div class="fw-name">PACE Framework</div>
+        <div class="fw-tag">PM Methodology · AI Agent Integration</div>
+        <div class="fw-desc">A product management methodology for integrating AI agents into PM workflows: <strong style="color:var(--cream)">Plan</strong> (define scope and constraints), <strong style="color:var(--cream)">Assign</strong> (delegate to the right AI agent or human), <strong style="color:var(--cream)">Connect</strong> (link outputs across tools and teams), <strong style="color:var(--cream)">Evaluate</strong> (measure and iterate). Built for AI-era PMs who need structure without rigidity.</div>
+        <div class="fw-insight">"Speed matters. But what matters most is real impact on users."</div>
+      </div>
+
+      <div class="fw-card reveal">
+        <div class="fw-accent"></div>
+        <div class="fw-icon">📡</div>
+        <div class="fw-name">VTV Strategy</div>
+        <div class="fw-tag">GTM Framework · Applied at Farmroll</div>
+        <div class="fw-desc">A go-to-market framework built for zero-budget ecosystem building: <strong style="color:var(--cream)">Visibility</strong> (get discovered before you're understood), <strong style="color:var(--cream)">Trend</strong> (attach your product to a wave already moving), <strong style="color:var(--cream)">Virality</strong> (design for the second share, not the first). Designed and executed at Farmroll. Now a reusable commercial framework.</div>
+        <div class="fw-insight">"Build it and they'll come is a prayer, not a strategy."</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- THOUGHT LEADERSHIP -->
+<section class="thought" id="thought">
+  <div class="section-wrap">
+    <div class="section-label reveal">Published Writing</div>
+    <h2 class="section-title reveal">Ideas worth <em>reading.</em></h2>
+    <div class="thought-grid">
+
+      <div class="article-card reveal">
+        <div class="article-platform">Medium · AI Ethics</div>
+        <div class="article-title">The Ghost Mall Paradox: Why AI Cannot Automate Away the Customer</div>
+        <div class="article-desc">An original economic theory on AI's self-correcting effect on labor markets. If AI destroys all jobs, who buys the products? The paradox that forces the augmentation conversation.</div>
+      </div>
+
+      <div class="article-card reveal">
+        <div class="article-platform">Medium · AI Philosophy</div>
+        <div class="article-title">The Human Advantage: Why Soft Skills Are the New Code in 2026</div>
+        <div class="article-desc">AI has automated execution. The new frontier is governance. Why emotional intelligence, ethical judgment, and creativity are now the highest-value skills in the market.</div>
+      </div>
+
+      <div class="article-card reveal">
+        <div class="article-platform">Medium · AI Regulation</div>
+        <div class="article-title">Navigating the EU AI Act: A Practical Guide for AI Founders and SaaS Products</div>
+        <div class="article-desc">The EU AI Act is live. €35M fines or 7% of global revenue — whichever hurts more. A practical breakdown for founders and product leaders who need to act now, not bookmark for later.</div>
+      </div>
+
+      <div class="article-card reveal">
+        <div class="article-platform">Medium · Product Strategy</div>
+        <div class="article-title">The Death of the AI PM Roadmap: Why Principles Beat Metrics in 2026</div>
+        <div class="article-desc">Feature roadmaps are dying. The AI PM's real job is no longer planning what to build — it's defining what should never be built, and why. A reframe for the next generation of product leaders.</div>
+      </div>
+
+      <div class="article-card reveal">
+        <div class="article-platform">Medium · AI Ethics</div>
+        <div class="article-title">The Anthropic-Pentagon Dilemma: What Happens When Safety Meets Strategy</div>
+        <div class="article-desc">A philosophical analysis of Anthropic's partnership with the US military. What it means for AI safety commitments, the ethics of dual-use technology, and what every AI company will face next.</div>
+      </div>
+
+      <div class="article-card reveal">
+        <div class="article-platform">Medium · PM Frameworks</div>
+        <div class="article-title">PACE: A Framework for Integrating AI Agents into Your PM Workflow</div>
+        <div class="article-desc">Plan. Assign. Connect. Evaluate. The original PACE Framework — built for AI-era product managers who want structure without rigidity. Practical, named, and ready to use.</div>
+      </div>
+
+    </div>
+    <div class="thought-cta reveal">
+      <span class="thought-cta-text">Read all published work at</span>
+      <a href="https://medium.com/@obidipaschal" target="_blank">medium.com/@obidipaschal</a>
+      <span class="thought-cta-text">and</span>
+      <a href="https://x.com/MaxxifiedLian" target="_blank">@MaxxifiedLian on X</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- SPEAKING -->
+<section class="speaking" id="speaking">
+  <div class="section-wrap">
+    <div class="section-label reveal">Speaking & Community</div>
+    <h2 class="section-title reveal">Ideas in <em>motion.</em></h2>
+    <div class="speaking-grid">
+      <div class="speaking-feature reveal">
+        <div class="speaking-show-name">Minds of Machine</div>
+        <div class="speaking-show-sub">Weekly Live · X (Twitter Spaces)</div>
+        <div class="speaking-desc">A weekly live AI philosophy and strategy space on X where we go beyond the hype and ask the questions the industry is afraid of: What should AI do? Who decides? What happens to the rest of us? Not a podcast. A conversation — live, unscripted, and real.</div>
+        <div class="speaking-stat-row">
+          <div>
+            <div class="spk-stat-num">200+</div>
+            <div class="spk-stat-label">Live Listeners / Session</div>
+          </div>
+          <div>
+            <div class="spk-stat-num">Weekly</div>
+            <div class="spk-stat-label">Frequency</div>
+          </div>
+          <div>
+            <div class="spk-stat-num">Live</div>
+            <div class="spk-stat-label">Format</div>
+          </div>
+        </div>
+        <div class="topics-list">
+          <div class="topic-item">AI ethics and governance — what the textbooks miss</div>
+          <div class="topic-item">The philosophy of large language models</div>
+          <div class="topic-item">AI product strategy for builders and leaders</div>
+          <div class="topic-item">Web3 and decentralized AI futures</div>
+          <div class="topic-item">The human premium in an automated economy</div>
+        </div>
+      </div>
+      <div>
+        <div class="community-list reveal">
+          <div class="community-item">
+            <div class="comm-title">Olivia AI</div>
+            <div class="comm-role">Elite Ambassador & AI Educator · 2024–Present</div>
+            <div class="comm-desc">Represented Olivia AI at virtual events and X spaces reaching 1,000+ participants. Produced SEO-optimized AI education content for non-technical audiences.</div>
+          </div>
+          <div class="community-item">
+            <div class="comm-title">Cardano Nigeria</div>
+            <div class="comm-role">Founder · 2025–Present</div>
+            <div class="comm-desc">Founded Nigeria's official Cardano community. One founder. Zero budget. A 200+ campus tour in 2026. Building the grassroots blockchain adoption movement Nigeria has never had.</div>
+          </div>
+          <div class="community-item">
+            <div class="comm-title">@sign Academy</div>
+            <div class="comm-role">Crypto Educator · 2023–2024</div>
+            <div class="comm-desc">Educated 1,000+ members in Web3 and blockchain fundamentals. Awarded the @sign Support Warrior NFT. Recognized as "Sign Philosopher and Onboarder."</div>
+          </div>
+          <div class="community-item">
+            <div class="comm-title">Magnet X DAO</div>
+            <div class="comm-role">PM & B2B Strategist · 2024–Present</div>
+            <div class="comm-desc">Scaled from zero to 2,000+ organic followers. 500+ educated. 3 B2B partnerships. 150K+ combined influencer reach. Community built as a product, not an afterthought.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- TOOLS -->
+<section class="tools" id="tools">
+  <div class="section-wrap">
+    <div class="section-label reveal">Tools & Stack</div>
+    <h2 class="section-title reveal">What I <em>work with.</em></h2>
+    <div class="tools-grid reveal">
+      <div class="tool-chip"><span>ChatGPT (GPT-4o)</span></div>
+      <div class="tool-chip"><span>Claude (Anthropic)</span></div>
+      <div class="tool-chip"><span>Gemini</span></div>
+      <div class="tool-chip"><span>Perplexity AI</span></div>
+      <div class="tool-chip"><span>Midjourney</span></div>
+      <div class="tool-chip"><span>Notion</span></div>
+      <div class="tool-chip"><span>Figma</span></div>
+      <div class="tool-chip"><span>Prompt Engineering</span></div>
+      <div class="tool-chip"><span>PRD Authoring</span></div>
+      <div class="tool-chip"><span>Roadmapping</span></div>
+      <div class="tool-chip"><span>User Story Mapping</span></div>
+      <div class="tool-chip"><span>Sprint Planning</span></div>
+      <div class="tool-chip"><span>Backlog Prioritization</span></div>
+      <div class="tool-chip"><span>LLM Product Strategy</span></div>
+      <div class="tool-chip"><span>AI Ethics Frameworks</span></div>
+      <div class="tool-chip"><span>Token Economics</span></div>
+      <div class="tool-chip"><span>Smart Contract Logic</span></div>
+      <div class="tool-chip"><span>Cardano Ecosystem</span></div>
+      <div class="tool-chip"><span>SEO Strategy</span></div>
+      <div class="tool-chip"><span>GTM Design</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- CAIO VISION -->
+<section class="vision" id="vision">
+  <div class="section-wrap">
+    <div class="section-label reveal">The Destination</div>
+    <h2 class="section-title reveal">Building toward <em>CAIO.</em></h2>
+    <div class="vision-card reveal">
+      <div class="vision-grid">
+        <div>
+          <p class="vision-text">I am not building toward a Chief AI Officer role because it is a prestigious title. I am building toward it because it is the only role that requires everything I am: <strong>philosophical depth, product execution, ethical judgment, and strategic vision.</strong></p>
+          <p class="vision-text">Most AI leaders have one or two of these. Very few have all four. The organizations that will win the next decade of AI won't be the ones who deploy the most models — they will be the ones who deploy them <strong>wisely, ethically, and with a clear answer to the question: why?</strong></p>
+          <p class="vision-text">The CAIO role is not yet standardized. Most organizations don't know what they need from it yet. That ambiguity is not a problem for me — <strong>it is an opportunity to define the role from first principles.</strong> Which is exactly how I approach every product challenge I encounter.</p>
+          <div class="philosophy-quote" style="margin-top:32px">
+            <p>"I don't just ask what AI can do. I ask what it should do, and why. That second question is increasingly the most important one in product."</p>
+            <cite>— Paschal Obidi</cite>
+          </div>
+        </div>
+        <div class="vision-pillars">
+          <div class="pillar">
+            <div class="pillar-title">🧠 Philosophical Foundation</div>
+            <div class="pillar-desc">Two First Class Philosophy degrees. Specialized in AI ethics, societal impacts, epistemology, and philosophy of mind. The intellectual depth most AI leaders don't have.</div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-title">⚙️ Product Execution</div>
+            <div class="pillar-desc">IBM Certified PM. PRD authorship. Cross-functional team leadership. Roadmapping. Sprint planning. The mechanics of shipping — not just thinking.</div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-title">⚖️ Ethical Governance</div>
+            <div class="pillar-desc">Original frameworks on AI labor, value, and societal impact. Author of AI ethics analysis published across platforms. Governance as a product constraint, not an afterthought.</div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-title">📡 Strategic Vision</div>
+            <div class="pillar-desc">Community building at scale. B2B strategy. Ecosystem design. The long-game thinking that separates AI strategists from AI operators.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-bg-text">Let's Build</div>
+  <div class="section-wrap" style="position:relative;z-index:2">
+    <div class="cta-label">Open to Opportunities</div>
+    <h2 class="cta-title">Let's build something<br><em>worth building.</em></h2>
+    <p class="cta-sub">If you are looking for a Senior AI Product Manager who thinks philosophically, executes commercially, and leads with ethical clarity — let's talk.</p>
+    <div class="cta-actions">
+      <a href="/cdn-cgi/l/email-protection#4a2528232e233a2b3929222b260a2d272b232664292527" class="btn-primary"><span class="__cf_email__" data-cfemail="7d121f1419140d1c0e1e151c113d1a101c1411531e1210">[email&#160;protected]</span></a>
+      <a href="https://linkedin.com/in/paschal-obidi" class="btn-outline" target="_blank">LinkedIn</a>
+    </div>
+    <div class="cta-links">
+      <a href="https://medium.com/@obidipaschal" class="cta-link" target="_blank">Medium</a>
+      <a href="https://x.com/MaxxifiedLian" class="cta-link" target="_blank">X / Twitter</a>
+      <a href="https://substack.com/@MaxxifiedLian" class="cta-link" target="_blank">Substack</a>
+      <a href="tel:+2348080957215" class="cta-link">+234 808 095 7215</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Paschal Obidi · @MaxxifiedLian</span>
+  <span>AI Product Lead · AI Ethics · Philosopher of AI</span>
+  <span>Lagos, Nigeria · <a href="/cdn-cgi/l/email-protection#fe919c979a978e9f8d9d969f92be99939f9792d09d9193"><span class="__cf_email__" data-cfemail="2c434e4548455c4d5f4f444d406c4b414d4540024f4341">[email&#160;protected]</span></a></span>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── NAV SCROLL ──────────────────────────────────────────────────────────────
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── HERO CANVAS — CONNECTED NODE NETWORK ────────────────────────────────────
+const canvas = document.getElementById('hero-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, nodes;
+
+function resize() {
+  W = canvas.width = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+  initNodes();
+}
+
+function initNodes() {
+  nodes = Array.from({ length: 55 }, () => ({
+    x: Math.random() * W, y: Math.random() * H,
+    vx: (Math.random() - 0.5) * 0.45,
+    vy: (Math.random() - 0.5) * 0.45,
+    r: Math.random() * 2 + 1,
+  }));
+}
+
+function drawNetwork() {
+  ctx.clearRect(0, 0, W, H);
+  const MAX_D = 160;
+  for (let i = 0; i < nodes.length; i++) {
+    const a = nodes[i];
+    a.x += a.vx; a.y += a.vy;
+    if (a.x < 0 || a.x > W) a.vx *= -1;
+    if (a.y < 0 || a.y > H) a.vy *= -1;
+    for (let j = i + 1; j < nodes.length; j++) {
+      const b = nodes[j];
+      const dx = a.x - b.x, dy = a.y - b.y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < MAX_D) {
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(201,168,76,${(1 - d / MAX_D) * 0.35})`;
+        ctx.lineWidth = 0.6;
+        ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+      }
+    }
+    ctx.beginPath();
+    ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(201,168,76,0.55)';
+    ctx.fill();
+  }
+  requestAnimationFrame(drawNetwork);
+}
+
+window.addEventListener('resize', resize);
+resize();
+drawNetwork();
+
+// ── REVEAL ON SCROLL ─────────────────────────────────────────────────────────
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+// ── SMOOTH ACTIVE NAV ────────────────────────────────────────────────────────
+const sections = docume
