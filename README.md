@@ -10,4 +10,4 @@ Personal portfolio website for Paschal Obidi (@MaxxifiedLian).
 
 ## Contact
 
-obidipaschal@gmail.com · medium.com/@obidipaschal
+obidipaschal@gmail.com · medium.com/@obidipaschal · medium.com/@maxonboarder
